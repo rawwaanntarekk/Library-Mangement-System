@@ -55,11 +55,6 @@ public class LibraryServices {
         String email = inputString( "Email");
         return new Member(name, phone, email);
     }
-    private static String inputISBN(){
-        System.out.println("Enter the ISBN:");
-        Scanner Scanner = new Scanner(System.in);
-        return Scanner.nextLine();
-    }
     private static Integer inputChoice(){
         try {
             System.out.print("Enter your choice: ");
@@ -83,7 +78,7 @@ public class LibraryServices {
     }
 
     public static void updateBook() {
-        bookRepository.updateBook(inputISBN());
+        bookRepository.updateBook(inputString("ISBN"));
     }
 
     public static void updateMember() {
@@ -91,7 +86,7 @@ public class LibraryServices {
     }
 
     public static void getBooks() {
-        for (Book book : bookRepository.GetBooks()) {
+        for (Book book : bookRepository.getBooks()) {
             System.out.println(book);
         }
     }

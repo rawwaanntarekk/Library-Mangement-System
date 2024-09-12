@@ -36,16 +36,10 @@ public class BookRepository implements IBookRepository {
     }
 
     @Override
-    public ArrayList<Book> GetBooks() {
+    public ArrayList<Book> getBooks() {
         return books;
     }
 
 
-    @Override
-    public void deleteBook(String ISBN) {
-        Book book = getBook(ISBN);
-        if (book != null) {
-            books.remove(book);
-        }
-    }
+
 }

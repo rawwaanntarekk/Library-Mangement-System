@@ -23,13 +23,7 @@ public class MemberRepository implements IMemberRepository {
 
     }
 
-    @Override
-    public void deleteMember(String name) {
-        Member member = getMember(name);
-        if (member != null) {
-            members.remove(member);
-        }
-    }
+
 
     @Override
     public Member getMember(String name) {
