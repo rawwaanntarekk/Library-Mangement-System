@@ -9,13 +9,14 @@ import java.util.Scanner;
 public class LibraryServices {
     static IBookRepository bookRepository = Library.bookRepository;
     static IMemberRepository memberRepository = Library.memberRepository;
+    static Scanner scanner = new Scanner(System.in);
 
-    private static String inputString(Scanner scanner, String prompt) {
+    private static String inputString( String prompt) {
         System.out.print(prompt + ":");
         return scanner.nextLine();
     }
 
-    private static LocalDate inputDate(Scanner scanner) {
+    private static LocalDate inputDate() {
         System.out.print("Publication Date" + " (YYYY-MM-DD):");
         return LocalDate.parse(scanner.nextLine());
     }
@@ -23,23 +24,21 @@ public class LibraryServices {
 
 
     private static Book inputBook(){
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the book details:");
-        String title = inputString(scanner, "Title");
-        String author = inputString(scanner, "Author");
-        String ISBN = inputString(scanner, "ISBN");
-        LocalDate publicationDate = inputDate(scanner);
+        String title = inputString("Title");
+        String author = inputString("Author");
+        String ISBN = inputString("ISBN");
+        LocalDate publicationDate = inputDate();
         return new Book(title, author, ISBN, publicationDate);
     }
 
 
 
     private static Member inputMember(){
-        Scanner Scanner = new Scanner(System.in);
         System.out.println("Enter the member details:");
-        String name = inputString(Scanner, "Name");
-        String phone = inputString(Scanner, "Phone");
-        String email = inputString(Scanner, "Email");
+        String name = inputString("Name");
+        String phone = inputString( "Phone");
+        String email = inputString( "Email");
         return new Member(name, phone, email);
     }
     private static String inputISBN(){
@@ -48,9 +47,13 @@ public class LibraryServices {
         return Scanner.nextLine();
     }
     private static Integer inputChoice(){
-        System.out.print("Enter your choice:");
-        Scanner Scanner = new Scanner(System.in);
-        return Scanner.nextInt();
+        try {
+            System.out.print("Enter your choice: ");
+            Scanner scanner = new Scanner(System.in);
+            return scanner.nextInt();
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
 
@@ -60,11 +63,8 @@ public class LibraryServices {
     }
 
     public static void registerMember() {
-        Scanner scanner = new Scanner(System.in);
         memberRepository.addMember(inputMember());
         System.out.println("Member registered successfully");
-        Member member = memberRepository.getMember(inputString(scanner, "Enter the member name to search"));
-        System.out.println(member);
 
     }
 
@@ -91,12 +91,7 @@ public class LibraryServices {
         System.out.println("0. Exit");
     }
 
-    private static int checkOption(int option) {
-        if (option < 1 || option > 5) {
-            return 0;
-        }
-        return option;
-    }
+
 
     private static void  processOption(int option) {
         switch (option) {
@@ -105,6 +100,11 @@ public class LibraryServices {
             case 3 -> updateBook();
             case 4 -> updateMember();
             case 5 -> getBooks();
+            case 0 -> {
+                System.out.println("Exiting...");
+                System.exit(0);
+            }
+            default -> System.out.println("Invalid choice, please choose again.");
 
         }
     }
@@ -114,7 +114,6 @@ public class LibraryServices {
         do {
             showOptions();
             option = inputChoice();
-            checkOption(option);
             processOption(option);
         } while (option != 0);
     }
