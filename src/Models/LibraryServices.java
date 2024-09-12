@@ -11,17 +11,31 @@ public class LibraryServices {
     static IMemberRepository memberRepository = Library.memberRepository;
     static Scanner scanner = new Scanner(System.in);
 
-    private static String inputString( String prompt) {
+    private static String inputString(String prompt) {
         System.out.print(prompt + ":");
-        return scanner.nextLine();
+        String input = scanner.nextLine();
+        while (!validateInput(prompt, input)) {
+            System.out.print("Invalid input, please enter a valid " + prompt + ":");
+            input = scanner.nextLine();
+        }
+        return input;
     }
+
+    private static boolean validateInput(String prompt, String input) {
+        return switch (prompt) {
+            case "Title", "Author", "Name" -> input.matches("^[a-zA-Z\\s'-]+$");
+            case "ISBN" -> input.matches("^[0-9]{13}$");
+            case "Phone" -> input.matches("^01[0125][0-9]{8}$");
+            case "Email" -> input.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+            default -> false;
+        };
+    }
+
 
     private static LocalDate inputDate() {
         System.out.print("Publication Date" + " (YYYY-MM-DD):");
         return LocalDate.parse(scanner.nextLine());
     }
-
-
 
     private static Book inputBook(){
         System.out.println("Enter the book details:");
