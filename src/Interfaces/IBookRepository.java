@@ -1,16 +1,16 @@
 package Interfaces;
 
 import Models.Book;
-
-import java.time.LocalDate;
+import java.util.ArrayList;
 
 public interface IBookRepository {
 
 
 
-     void  addBook(String title, String author, String ISBN, LocalDate publicationDate);
+     void  addBook(Book book);
      void updateBook(String ISBN);
      Book getBook(String ISBN);
+     ArrayList<Book> GetBooks();
      void deleteBook(String ISBN);
 
 }

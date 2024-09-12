@@ -14,41 +14,13 @@ public class Book {
         this.author = author;
         this.ISBN = ISBN;
         this.publicationDate = publicationDate;
-    }
-
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+        this.status = BookStatus.available;
     }
 
     public String getISBN() {
         return ISBN;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
-    }
-
-    public LocalDate getPublicationDate() {
-        return publicationDate;
-    }
-
-    public void setPublicationDate(LocalDate publicationDate) {
-        this.publicationDate = publicationDate;
-    }
 
     public BookStatus getStatus() {
         return status;
@@ -56,5 +28,15 @@ public class Book {
 
     public void setStatus(BookStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Book Details: " +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", ISBN='" + ISBN + '\'' +
+                ", publicationDate=" + publicationDate +
+                ", status=" + status ;
     }
 }

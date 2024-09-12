@@ -3,19 +3,18 @@ package Repositories;
 import Interfaces.IBookRepository;
 import Models.Book;
 
-import java.time.LocalDate;
-import java.util.SequencedCollection;
+import java.util.ArrayList;
+
 
 import static Models.BookStatus.available;
 import static Models.BookStatus.loaned;
 
 public class BookRepository implements IBookRepository {
-    SequencedCollection<Book> books;
+    ArrayList<Book> books = new ArrayList<>();
+
     @Override
-    public void addBook(String title, String author, String ISBN, LocalDate publicationDate) {
-       Book book = new Book(title, author, ISBN, publicationDate);
-       book.setStatus(available);
-       books.add(book);
+    public void addBook(Book book) {
+        books.add(book);
     }
 
     @Override
@@ -36,7 +35,10 @@ public class BookRepository implements IBookRepository {
         return null;
     }
 
-
+    @Override
+    public ArrayList<Book> GetBooks() {
+        return books;
+    }
 
 
     @Override

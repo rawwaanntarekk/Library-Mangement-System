@@ -1,13 +1,18 @@
 package Models;
 
 import Interfaces.IBookRepository;
+import Interfaces.IMemberRepository;
+import Repositories.BookRepository;
+import Repositories.MemberRepository;
 
-import java.time.LocalDate;
+
 
 public class Library {
-    static IBookRepository bookRepository;
+    static IBookRepository bookRepository = new BookRepository();
+    static IMemberRepository memberRepository = new MemberRepository();
 
-    public static void addBook(String title, String author, String ISBN, LocalDate publicationDate) {
-        bookRepository.addBook(title, author, ISBN, publicationDate);
+
+    public static void run(){
+        LibraryServices.run();
     }
 }
