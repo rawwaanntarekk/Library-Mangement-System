@@ -1,0 +1,64 @@
+import java.time.LocalDate;
+import java.util.Map;
+import java.util.HashMap;
+
+// BorrowService class: Handles borrowing logic and updating book status
+public class BorrowService {
+    private Map<String, BookLoan> bookLoans; // Stores current loans by book ID
+
+    public BorrowService() {
+        bookLoans = new HashMap<>();
+    }
+
+    // Method to borrow a book
+    public void borrowBook(Book book, Member member, LocalDate dueDate) {
+        if (book.getStatus() == BookStatus.AVAILABLE) {
+            // Update book status to CHECKED_OUT
+            updateBookStatus(book, BookStatus.CHECKED_OUT);
+
+            // Create a new BookLoan for this borrowing action
+            BookLoan bookLoan = new BookLoan(member.getMemberId(), book.getIsbn(), dueDate);
+            bookLoans.put(book.getIsbn(), bookLoan);
+
+            System.out.println(member.getName() + " borrowed " + book.getTitle() + ". Due date: " + dueDate);
+        } else {
+            System.out.println("Sorry, " + book.getTitle() + " is currently not available. Status: " + book.getStatus());
+        }
+    }
+
+    // Method to return a book and calculate fines if overdue
+    public void returnBook(Book book, Member member, LocalDate returnDate) {
+        BookLoan bookLoan = bookLoans.get(book.getIsbn());
+
+        if (bookLoan != null && bookLoan.getMemberId().equals(member.getMemberId())) {
+            // Calculate fines if overdue
+            bookLoan.calculateOverdueFines(returnDate);
+
+            // Update book status to AVAILABLE
+            updateBookStatus(book, BookStatus.AVAILABLE);
+
+            // Remove the book loan entry after the return
+            bookLoans.remove(book.getIsbn());
+
+            System.out.println(member.getName() + " returned " + book.getTitle());
+            if (bookLoan.getOverdueFines() > 0) {
+                System.out.println("Overdue fines: $" + bookLoan.getOverdueFines());
+            }
+        } else {
+            System.out.println("This book was not borrowed by " + member.getName());
+        }
+    }
+
+    // Method to update the book's status
+    public void updateBookStatus(Book book, BookStatus newStatus) {
+        book.setStatus(newStatus);
+        System.out.println("Updated status of book '" + book.getTitle() + "' to " + newStatus);
+    }
+
+    // Display all current loans
+    public void displayCurrentLoans() {
+        for (BookLoan loan : bookLoans.values()) {
+            System.out.println(loan);
+        }
+    }
+}
